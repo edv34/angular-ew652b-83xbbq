@@ -38,9 +38,10 @@ import {
   MatStepperModule,
 } from '@angular/material';
 import {TableOverviewExample} from './app/table-overview/table-overview-example';
-import {TabNavigation} from './app/tab-navigation';
 import {TableSave} from './app/table-save/table-save';
-import {DialogBox} from './app/dialog-box/dialog-box'
+import {DialogBox} from './app/dialog-box/dialog-box';
+import {AppRoutingModule} from './app/app-routing/app-routing.module';
+import {MainMenuComponent} from './app/main-menu/main-menu.component';
 import {HttpModule} from '@angular/http';
 import {HttpClientModule} from '@angular/common/http';
 import {CdkTableModule} from '@angular/cdk/table';
@@ -94,11 +95,12 @@ export class DemoMaterialModule {}
     MatNativeDateModule,
     ReactiveFormsModule,
     MatDialogModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    AppRoutingModule
   ],
-  entryComponents: [TabNavigation, DialogBox],
-  declarations: [TabNavigation, TableOverviewExample, TableSave, DialogBox],
-  bootstrap: [TabNavigation],
+  entryComponents: [MainMenuComponent, DialogBox],
+  declarations: [MainMenuComponent, TableOverviewExample, TableSave, DialogBox],
+  bootstrap: [MainMenuComponent],
   providers: []
 })
 export class AppModule {}

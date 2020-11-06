@@ -1,8 +1,10 @@
 import {Component, ViewChild} from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
-import { AppSettings } from '../appsettings';
-import { AppSettingsService } from '../appsettingsservice';
+import {AppSettings} from '../appsettings';
+import {AppSettingsService} from '../appsettingsservice';
 import {HttpClient} from "@angular/common/http";
+import {UsersService} from '../users.service';
+import {UserData} from '../userdata';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -17,20 +19,17 @@ export class TableOverviewExample {
   displayedColumns = ['id', 'name', 'progress', 'color'];
   dataSource: MatTableDataSource<UserData>;
 
-  userData1: UserData[] = [];
-  userData2: UserData[] = [];
-
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   private settings: AppSettings;
 
-  constructor(private appSettingsService: AppSettingsService, private http: HttpClient) {
+  constructor(private appSettingsService: AppSettingsService, private http: HttpClient, private userService: UsersService) {
     /*
     const users: UserData[] = [];
     for (let i = 1; i <= 100; i++) { users.push(createNewUser(i)); }
     this.dataSource = new MatTableDataSource(users);*/
-    this.dataSource = new MatTableDataSource();
+    this.dataSource = new MatTableDataSource(userService.getUsers());
 
     // Custom filter
     this.dataSource.filterPredicate = 
@@ -148,49 +147,6 @@ export class TableOverviewExample {
     };
   }
 
-  updateSource(id: number ,data: UserData[]) {
-    switch (id) {
-      case 1:
-        this.userData1 = data;
-      break;
-      case 2:
-        this.userData2 = data;
-      break;
-    }
-    let userCombined = this.userData1.concat(this.userData2);
-    //this.dataSource = new MatTableDataSource(userCombined);
-    this.dataSource.data = userCombined;
-    //this.dataSource.paginator = this.paginator;
-    //this.dataSource.sort = this.sort;
-  }
-}
-
-/** Builds and returns a new User. */
-function createNewUser(id: number): UserData {
-  const name =
-      NAMES[Math.round(Math.random() * (NAMES.length - 1))] + ' ' +
-      NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) + '.';
-
-  return {
-    id: id.toString(),
-    name: name,
-    progress: Math.round(Math.random() * 100).toString(),
-    color: COLORS[Math.round(Math.random() * (COLORS.length - 1))]
-  };
-}
-
-/** Constants used to fill up our data base. */
-const COLORS = ['maroon', 'red', 'orange', 'yellow', 'olive', 'green', 'purple',
-  'fuchsia', 'lime', 'teal', 'aqua', 'blue', 'navy', 'black', 'gray'];
-const NAMES = ['Maia', 'Asher', 'Olivia', 'Atticus', 'Amelia', 'Jack',
-  'Charlotte', 'Theodore', 'Isla', 'Oliver', 'Isabella', 'Jasper',
-  'Cora', 'Levi', 'Violet', 'Arthur', 'Mia', 'Thomas', 'Elizabeth'];
-
-export interface UserData {
-  id: string;
-  name: string;
-  progress: string;
-  color: string;
 }
 
 

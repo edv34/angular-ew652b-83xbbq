@@ -1,7 +1,9 @@
 import {Component, ViewChild, Output, EventEmitter,OnInit} from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import { MatDialog } from '@angular/material';
-import { DialogBox } from '../dialog-box/dialog-box'
+import { DialogBox } from '../dialog-box/dialog-box';
+import { UsersService } from '../users.service';
+import {UserData} from '../userdata';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -9,7 +11,8 @@ import { DialogBox } from '../dialog-box/dialog-box'
 @Component({
   selector: 'table-save',
   styleUrls: ['table-save.css'],
-  templateUrl: 'table-save.html'
+  templateUrl: 'table-save.html',
+  providers: [],
 })
 export class TableSave implements OnInit{
   displayedColumns = ['id', 'name', 'progress', 'color', 'action'];
@@ -22,10 +25,12 @@ export class TableSave implements OnInit{
 
   @Output() messageEvent = new EventEmitter<UserData[]>();
 
-  constructor(public dialog: MatDialog) {
+  constructor(public dialog: MatDialog, private userService: UsersService) {
     // Create users
-    const users: UserData[] = [];
+    /*const users: UserData[] = [];
     for (let i = 1; i <= 5; i++) { users.push(createNewUser(i)); }
+    const usersSaved: UserData[] = [].concat(users);*/
+    const users: UserData[] = userService.getUsers();
     const usersSaved: UserData[] = [].concat(users);
 
     // Assign the data to the data source for the table to render
@@ -144,13 +149,6 @@ const COLORS = ['maroon', 'red', 'orange', 'yellow', 'olive', 'green', 'purple',
 const NAMES = ['Maia', 'Asher', 'Olivia', 'Atticus', 'Amelia', 'Jack',
   'Charlotte', 'Theodore', 'Isla', 'Oliver', 'Isabella', 'Jasper',
   'Cora', 'Levi', 'Violet', 'Arthur', 'Mia', 'Thomas', 'Elizabeth'];
-
-export interface UserData {
-  id: string;
-  name: string;
-  progress: string;
-  color: string;
-}
 
 
 /**  Copyright 2018 Google Inc. All Rights Reserved.

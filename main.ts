@@ -43,10 +43,11 @@ import {TableSave} from './app/table-save/table-save';
 import {DialogBox} from './app/dialog-box/dialog-box';
 import {AppRoutingModule} from './app/app-routing/app-routing.module';
 import {MainMenuComponent} from './app/main-menu/main-menu.component';
-import { CustomRouteReuseStrategy } from './app/router-strategy';
+import { CustomRouteReuseStrategy } from './app/app-routing/router-strategy';
 import {HttpModule} from '@angular/http';
 import {HttpClientModule} from '@angular/common/http';
 import {CdkTableModule} from '@angular/cdk/table';
+import { UsersService } from './app/users.service';
 
 @NgModule({
   exports: [
@@ -106,7 +107,8 @@ export class DemoMaterialModule {}
   providers: [{
     provide: RouteReuseStrategy,
     useClass: CustomRouteReuseStrategy
-  }]
+  },
+  UsersService]
 })
 export class AppModule {}
 

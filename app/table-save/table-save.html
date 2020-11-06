@@ -1,0 +1,64 @@
+<div class="spinner-bg">
+  <mat-spinner class="spinner"></mat-spinner>
+</div>
+
+<div class="example-header">
+  <span class="buttons-left">
+  <button mat-raised-button id="AddRow" color="primary" (click)="openDialog('Add',{})">Add row</button>
+  </span>
+  <span class="buttons-right">
+  <button mat-raised-button id="SaveChanges" color="primary" (click)="onSaveClick()" [disabled]="isUnchanged">Save</button>
+  <button mat-raised-button id="CancelChanges" color="primary" (click)="onCancelClick()" [disabled]="isUnchanged">Cancel</button>
+  </span>
+</div>
+
+<div class="example-container mat-elevation-z8">
+
+  <mat-table id="table" [dataSource]="dataSource" matSort>
+
+    <!-- ID Column -->
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.id}} </mat-cell>
+    </ng-container>
+
+    <!-- Progress Column -->
+    <ng-container matColumnDef="progress">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Progress </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.progress}}% </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
+    </ng-container>
+
+    <!-- Color Column -->
+    <ng-container matColumnDef="color">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Color </mat-header-cell>
+      <mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.color}} </mat-cell>
+    </ng-container>
+
+    <!-- Action Column -->
+    <ng-container matColumnDef="action">
+      <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+      <mat-cell *matCellDef="let row" class="action-link"> 
+        <button mat-icon-button color="warn" (click)="openDialog('Delete',row)">
+          <mat-icon>delete</mat-icon>
+        </button>  
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;">
+    </mat-row>
+  </mat-table>
+
+  <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+</div>
+
+
+<!-- Copyright 2018 Google Inc. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license -->

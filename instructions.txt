@@ -1,0 +1,27 @@
+Tabs:
+"Filter" tab displays combined saved data from the other two tabs.
+"Edit" tabs allow adding and removing rows, as well as applying or canceling any changes. Saving shows a loading spinner for some time, simulating a time consuming process. This does not prevent the user from switching to other tabs and interacting with them.
+
+Using the filter:
+You can filter the displayed table by 2 fields: ID and Name.
+
+In case of ID, comparison operators are used. Such as ==,<,>,<=,>=.
+Example: "id<=10"
+
+For filtering by name you have 2 options:
+  Simple string
+All the names that contain the string will be displayed.
+Example: "name like 'jack'"
+
+  Regular expression
+If the string is enclosed with two slashes, it will be considered a regular expression.
+Example: "name like '/^.a[sc]+/'"
+
+You can also use "and","or" to combine multiple subqueries.
+Example: id<30 and id>10 or name like 'oliver' 
+
+Export/Import
+The corresponding buttons allow you to either export the table in its current filtered state as .json, or import values to it from a local .json file.
+
+Save filter
+This feature is supposed to upload current filter state to a file specified in appsetting.json, but because of stackblitz limitations, it saves it to a local file.

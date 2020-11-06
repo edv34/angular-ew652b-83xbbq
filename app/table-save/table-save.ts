@@ -18,6 +18,7 @@ export class TableSave implements OnInit{
   displayedColumns = ['id', 'name', 'progress', 'color', 'action'];
   dataSource: MatTableDataSource<UserData>;
   dataSaved: MatTableDataSource<UserData>;
+  //userService: UsersService;
   isUnchanged: boolean = true;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -30,8 +31,8 @@ export class TableSave implements OnInit{
     /*const users: UserData[] = [];
     for (let i = 1; i <= 5; i++) { users.push(createNewUser(i)); }
     const usersSaved: UserData[] = [].concat(users);*/
-    const users: UserData[] = userService.getUsers();
-    const usersSaved: UserData[] = [].concat(users);
+    const usersSaved: UserData[] = userService.getUsers();
+    const users: UserData[] = [].concat(usersSaved);
 
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource(users);
@@ -70,8 +71,14 @@ export class TableSave implements OnInit{
   addRowData(row_obj){
     let data = this.dataSource.data;
     let lastId = parseInt(data[data.length-1].id);
-    let user = createNewUser(lastId + 1);
-    user.name = row_obj.name;
+    //let user = createNewUser(lastId + 1);
+    let user = {
+          id: lastId.toString(),
+          name: row_obj.name,
+          progress: Math.round(Math.random() * 100).toString(),
+          color: 'red'
+    }
+    //user.name = row_obj.name;
     data.push(user);
     //this.dataSource = new MatTableDataSource(data);
     this.isUnchanged = false;
@@ -94,7 +101,7 @@ export class TableSave implements OnInit{
     //wait while showing a spinner
     let spinner = document.getElementsByClassName("spinner-bg")[0];
     spinner.style.display = "inline";
-    setTimeout(() => this.afterSave(spinner), 15000);
+    setTimeout(() => this.afterSave(spinner), 2000);
   }
 
   afterSave(spinner: Element){
@@ -108,7 +115,9 @@ export class TableSave implements OnInit{
   }
 
   onSaveClick(){
-    this.startSave();
+    //this.startSave();
+    this.userService.updateData(this.dataSource.data);
+    this.isUnchanged = true;
   }
 
   onCancelClick(){
@@ -128,28 +137,6 @@ export class TableSave implements OnInit{
     this.messageEvent.emit(this.dataSaved.data);
   }
 }
-
-/** Builds and returns a new User. */
-function createNewUser(id: number): UserData {
-  const name =
-      NAMES[Math.round(Math.random() * (NAMES.length - 1))] + ' ' +
-      NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) + '.';
-
-  return {
-    id: id.toString(),
-    name: name,
-    progress: Math.round(Math.random() * 100).toString(),
-    color: COLORS[Math.round(Math.random() * (COLORS.length - 1))]
-  };
-}
-
-/** Constants used to fill up our data base. */
-const COLORS = ['maroon', 'red', 'orange', 'yellow', 'olive', 'green', 'purple',
-  'fuchsia', 'lime', 'teal', 'aqua', 'blue', 'navy', 'black', 'gray'];
-const NAMES = ['Maia', 'Asher', 'Olivia', 'Atticus', 'Amelia', 'Jack',
-  'Charlotte', 'Theodore', 'Isla', 'Oliver', 'Isabella', 'Jasper',
-  'Cora', 'Levi', 'Violet', 'Arthur', 'Mia', 'Thomas', 'Elizabeth'];
-
 
 /**  Copyright 2018 Google Inc. All Rights Reserved.
     Use of this source code is governed by an MIT-style license that

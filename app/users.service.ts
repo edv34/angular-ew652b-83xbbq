@@ -16,6 +16,11 @@ export class UsersService {
     return this.users;
   }
 
+  updateData(userData: UserData[])
+  {
+    this.users = [].concat(userData);
+  }
+
   addUser()
   {
     let i = this.users.length+1;

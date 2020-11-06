@@ -70,10 +70,10 @@ export class TableSave implements OnInit{
 
   addRowData(row_obj){
     let data = this.dataSource.data;
-    let lastId = parseInt(data[data.length-1].id);
+    let newId = parseInt(data[data.length-1].id) + 1;
     //let user = createNewUser(lastId + 1);
     let user = {
-          id: lastId.toString(),
+          id: newId.toString(),
           name: row_obj.name,
           progress: Math.round(Math.random() * 100).toString(),
           color: 'red'

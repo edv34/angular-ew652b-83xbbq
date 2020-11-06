@@ -64,15 +64,14 @@ export class CustomRouteReuseStrategy implements RouteReuseStrategy {
    * @param current
    */
   shouldReuseRoute(future: ActivatedRouteSnapshot, current: ActivatedRouteSnapshot): boolean {
-    /** We only want to reuse the route if the data of the route config contains a reuse true boolean */
     let reUseUrl = false;
-
+    /*
     if ( future.routeConfig ) {
       if (future.routeConfig.data ) {
         reUseUrl = future.routeConfig.data.reuse;
       }
     }
-
+    */
     const defaultReuse = (future.routeConfig === current.routeConfig);
 
     // If either of our reuseUrl and default Url are true, we want to reuse the route

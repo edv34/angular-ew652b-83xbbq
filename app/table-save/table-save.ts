@@ -18,7 +18,7 @@ export class TableSave implements OnInit{
   displayedColumns = ['id', 'name', 'progress', 'color', 'action'];
   dataSource: MatTableDataSource<UserData>;
   dataSaved: MatTableDataSource<UserData>;
-  //userService: UsersService;
+  changedData: UserData[] = [];
   isUnchanged: boolean = true;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -85,8 +85,8 @@ export class TableSave implements OnInit{
           progress: Math.round(Math.random() * 100).toString(),
           color: 'red'
     }
-    //user.name = row_obj.name;
     data.push(user);
+    this.changedData.push(user);
     //this.dataSource = new MatTableDataSource(data);
     this.isUnchanged = false;
     this.refreshTable();
@@ -97,7 +97,15 @@ export class TableSave implements OnInit{
     for (let i = 0; i < data.length; i++) 
     {
       if (data[i].id == row_obj.id)
+      {
+        //Add id with empty name to changes
+        let user = {...data[i]};
+        user.name = '';
+        this.changedData.push(user);
+
         data.splice(i, 1);
+        break;
+      }
     }
     //this.dataSource = new MatTableDataSource(data);
     this.isUnchanged = false;
@@ -113,21 +121,17 @@ export class TableSave implements OnInit{
   }
 
   afterSave(spinner: Element){
-    /*let data = this.dataSaved.data;
-    data = [].concat(this.dataSource.data);
-    this.dataSaved = new MatTableDataSource(data);
-    this.sendData();*/
     this.userService.updateData(this.dataSource.data);
     this.userService.isSaving.next(false);
-    //let spinner = document.getElementsByClassName("spinner-bg")[0];
     spinner.style.display = "none";
     this.isUnchanged = true;
   }
 
   onSaveClick(){
-    this.startSave();
-    //this.userService.updateData(this.dataSource.data);
-    //this.isUnchanged = true;
+    //this.startSave();
+    this.userService.applyChanges(this.changedData);
+    this.changedData.splice(0, this.changedData.length);
+    this.isUnchanged = true;
   }
 
   onCancelClick(){

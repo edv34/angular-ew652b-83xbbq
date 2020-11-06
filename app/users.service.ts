@@ -5,6 +5,7 @@ import {UserData} from './userdata';
 @Injectable()
 export class UsersService {
   private users: UserData[] = [];
+  private changes: UserData[] = [];
   //isSaving: boolean = false;
   isSaving: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
@@ -18,15 +19,41 @@ export class UsersService {
   {
     return this.users;
   }
+  //Receive array of changes and apply them with a delay
+  applyChanges(userData: UserData[])
+  {
+    this.changes = userData;
+    this.isSaving.next(true);
+    console.log("Applying changes:");
+    console.log(userData);
+    //wait
+    //
+    for (let i = 0; i < this.changes.length; i++)
+    {
+      //let user = this.users.find(x => x.id === this.changes[i].id);
+      let index = this.users.findIndex(x => x.id === this.changes[i].id);
+      //Add if new id
+      if (index == -1)
+      {
+        this.users.push(this.changes[i]);
+      }
+      //Remove if name was changed to ''
+      else if (this.changes[i].name == '')
+      {
+        this.users.splice(index, 1);
+      }
+      //Update otherwise
+      else
+      {
+        this.users[index] = this.changes[i];
+      }
+    }
+    this.isSaving.next(false);
+  }
 
   updateData(userData: UserData[])
   {
     this.users = [].concat(userData);
-  }
-
-  setSavingStatus(saving: boolean)
-  {
-    this.isSaving.next(saving);
   }
 }
 

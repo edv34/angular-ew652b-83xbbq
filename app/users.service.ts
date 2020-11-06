@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import {UserData} from './userdata';
 
 @Injectable()
 export class UsersService {
-  users: UserData[] = [];
+  private users: UserData[] = [];
+  //isSaving: boolean = false;
+  isSaving: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor() {
     for (let i = 1; i <= 5; i++) { 
@@ -21,10 +24,9 @@ export class UsersService {
     this.users = [].concat(userData);
   }
 
-  addUser()
+  setSavingStatus(saving: boolean)
   {
-    let i = this.users.length+1;
-    this.users.push(createNewUser(i));
+    this.isSaving.next(saving);
   }
 }
 

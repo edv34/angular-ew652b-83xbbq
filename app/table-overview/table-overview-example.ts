@@ -77,12 +77,22 @@ export class TableOverviewExample {
   }
 
   ngOnInit(): void {
+    /*
     this.appSettingsService.getSettings()
       .subscribe(settings => this.settings = settings,
         () => null,
         () => {
           console.log(this.settings.defaultFilter);
         });
+    */
+    this.userService.isSaving.subscribe( value => {
+      if (value === true) {
+        console.log("saving"); 
+      }
+      else {
+        console.log("saved"); 
+      }
+    });
   }
 
   /**

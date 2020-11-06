@@ -40,7 +40,14 @@ export class TableSave implements OnInit{
   }
 
   ngOnInit() {
-    this.sendData();
+      this.userService.isSaving.subscribe( value => {
+      if (value === true) {
+        console.log("saving"); 
+      }
+      else {
+        console.log("saved"); 
+      }
+    });
   }
 
   /**
@@ -101,23 +108,26 @@ export class TableSave implements OnInit{
     //wait while showing a spinner
     let spinner = document.getElementsByClassName("spinner-bg")[0];
     spinner.style.display = "inline";
+    this.userService.isSaving.next(true);
     setTimeout(() => this.afterSave(spinner), 2000);
   }
 
   afterSave(spinner: Element){
-    let data = this.dataSaved.data;
+    /*let data = this.dataSaved.data;
     data = [].concat(this.dataSource.data);
     this.dataSaved = new MatTableDataSource(data);
-    this.sendData();
+    this.sendData();*/
+    this.userService.updateData(this.dataSource.data);
+    this.userService.isSaving.next(false);
     //let spinner = document.getElementsByClassName("spinner-bg")[0];
     spinner.style.display = "none";
     this.isUnchanged = true;
   }
 
   onSaveClick(){
-    //this.startSave();
-    this.userService.updateData(this.dataSource.data);
-    this.isUnchanged = true;
+    this.startSave();
+    //this.userService.updateData(this.dataSource.data);
+    //this.isUnchanged = true;
   }
 
   onCancelClick(){

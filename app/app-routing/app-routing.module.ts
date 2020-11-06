@@ -6,8 +6,16 @@ import { TableSave } from '../table-save/table-save';
 
 const routes: Routes = [
   { path: 'filter', component: TableOverviewExample },
-  { path: 'edit1', component: TableSave },
-  { path: 'edit2', component: TableSave }
+  { path: 'edit1', component: TableSave,
+    data: {
+      reuse: true
+    } 
+  },
+  { path: 'edit2', component: TableSave,
+    data: {
+      reuse: true
+    } 
+  }
 ];
 
 @NgModule({

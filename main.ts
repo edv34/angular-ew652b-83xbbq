@@ -3,6 +3,7 @@ import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgModule} from '@angular/core';
+import { RouteReuseStrategy } from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {
   MatAutocompleteModule,
@@ -42,6 +43,7 @@ import {TableSave} from './app/table-save/table-save';
 import {DialogBox} from './app/dialog-box/dialog-box';
 import {AppRoutingModule} from './app/app-routing/app-routing.module';
 import {MainMenuComponent} from './app/main-menu/main-menu.component';
+import { CustomRouteReuseStrategy } from './app/router-strategy';
 import {HttpModule} from '@angular/http';
 import {HttpClientModule} from '@angular/common/http';
 import {CdkTableModule} from '@angular/cdk/table';
@@ -101,7 +103,10 @@ export class DemoMaterialModule {}
   entryComponents: [MainMenuComponent, DialogBox],
   declarations: [MainMenuComponent, TableOverviewExample, TableSave, DialogBox],
   bootstrap: [MainMenuComponent],
-  providers: []
+  providers: [{
+    provide: RouteReuseStrategy,
+    useClass: CustomRouteReuseStrategy
+  }]
 })
 export class AppModule {}
 

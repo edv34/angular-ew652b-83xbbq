@@ -41,6 +41,7 @@ import {
 import {TableOverviewExample} from './app/table-overview/table-overview-example';
 import {TableSave} from './app/table-save/table-save';
 import {DialogBox} from './app/dialog-box/dialog-box';
+import {DialogChanges} from './app/dialog-changes/dialog-changes.component';
 import {AppRoutingModule} from './app/app-routing/app-routing.module';
 import {MainMenuComponent} from './app/main-menu/main-menu.component';
 import { CustomRouteReuseStrategy } from './app/app-routing/router-strategy';
@@ -101,8 +102,8 @@ export class DemoMaterialModule {}
     MatProgressSpinnerModule,
     AppRoutingModule
   ],
-  entryComponents: [MainMenuComponent, DialogBox],
-  declarations: [MainMenuComponent, TableOverviewExample, TableSave, DialogBox],
+  entryComponents: [MainMenuComponent, DialogBox, DialogChanges],
+  declarations: [MainMenuComponent, TableOverviewExample, TableSave, DialogBox, DialogChanges],
   bootstrap: [MainMenuComponent],
   providers: [{
     provide: RouteReuseStrategy,

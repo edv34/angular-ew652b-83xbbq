@@ -19,15 +19,21 @@ export class UsersService {
   {
     return this.users;
   }
+
+  getChanges(): UserData[]
+  {
+    return this.changes;
+  }
   //Receive array of changes and apply them with a delay
-  applyChanges(userData: UserData[])
+  async applyChanges(userData: UserData[])
   {
     this.changes = userData;
     this.isSaving.next(true);
     console.log("Applying changes:");
     console.log(userData);
-    //wait
-    //
+    //Delay
+    await new Promise(r => setTimeout(r, 3000));
+
     for (let i = 0; i < this.changes.length; i++)
     {
       //let user = this.users.find(x => x.id === this.changes[i].id);
@@ -49,6 +55,7 @@ export class UsersService {
       }
     }
     this.isSaving.next(false);
+    this.changes = [];
   }
 
   updateData(userData: UserData[])

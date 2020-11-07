@@ -1,9 +1,10 @@
 import {Component, ViewChild, Output, EventEmitter,OnInit} from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
-import { MatDialog } from '@angular/material';
-import { DialogBox } from '../dialog-box/dialog-box';
-import { UsersService } from '../users.service';
+import {MatDialog} from '@angular/material';
+import {DialogBox} from '../dialog-box/dialog-box';
+import {UsersService} from '../users.service';
 import {UserData} from '../userdata';
+import {DialogChanges} from '../dialog-changes/dialog-changes.component';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -42,7 +43,8 @@ export class TableSave implements OnInit{
   ngOnInit() {
       this.userService.isSaving.subscribe( value => {
       if (value === true) {
-        console.log("saving"); 
+        console.log("saving");
+        this.showChanges();
       }
       else {
         console.log("saved"); 
@@ -73,6 +75,10 @@ export class TableSave implements OnInit{
         this.deleteRowData(result.data);
       }
     });
+  }
+
+  showChanges() {
+    const dialogRef = this.dialog.open(DialogChanges);
   }
 
   addRowData(row_obj){

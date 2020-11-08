@@ -22,6 +22,8 @@ export class TableSave implements OnInit{
   changedData: UserData[] = [];
   isUnchanged: boolean = true;
 
+  isSaving = false;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -44,10 +46,17 @@ export class TableSave implements OnInit{
       this.userService.isSaving.subscribe( value => {
       if (value === true) {
         console.log("saving");
-        this.showChanges();
+        this.isSaving = true;
+        /*
+        let el = document.getElementsByClassName("change-notification")[0];
+        el.style.display = "inline";*/
       }
       else {
         console.log("saved"); 
+        this.isSaving = false;
+/*
+        let el = document.getElementsByClassName("change-notification")[0];
+        el.style.display = "none";*/
       }
     });
   }

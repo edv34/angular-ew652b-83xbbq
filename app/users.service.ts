@@ -27,12 +27,12 @@ export class UsersService {
   //Receive array of changes and apply them with a delay
   async applyChanges(userData: UserData[])
   {
-    this.changes = userData;
+    this.changes = [].concat(userData);
     this.isSaving.next(true);
     console.log("Applying changes:");
     console.log(userData);
     //Delay
-    await new Promise(r => setTimeout(r, 3000));
+    await new Promise(r => setTimeout(r, 5000));
 
     for (let i = 0; i < this.changes.length; i++)
     {

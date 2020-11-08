@@ -16,6 +16,15 @@
 .mat-table {
   overflow: auto;
   max-height: 500px;
+  max-width: 500px;
+}
+
+.mat-column-id {
+  flex: 0 0 10%;
+}
+
+.mat-column-action {
+  flex: 0 0 10%;
 }
 
 .buttons-right {

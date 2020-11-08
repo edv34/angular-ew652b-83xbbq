@@ -18,28 +18,18 @@ import {DialogChanges} from '../dialog-changes/dialog-changes.component';
 export class TableSave implements OnInit{
   displayedColumns = ['id', 'name', 'progress', 'color', 'action'];
   dataSource: MatTableDataSource<UserData>;
-  dataSaved: MatTableDataSource<UserData>;
   changedData: UserData[] = [];
   isUnchanged: boolean = true;
-
   isSaving = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  @Output() messageEvent = new EventEmitter<UserData[]>();
-
   constructor(public dialog: MatDialog, private userService: UsersService) {
-    // Create users
-    /*const users: UserData[] = [];
-    for (let i = 1; i <= 5; i++) { users.push(createNewUser(i)); }
-    const usersSaved: UserData[] = [].concat(users);*/
-    const usersSaved: UserData[] = userService.getUsers();
-    const users: UserData[] = [].concat(usersSaved);
-
+    this.updateData();
+    /*const users: UserData[] = [].concat(userService.getUsers());
     // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(users);
-    this.dataSaved = new MatTableDataSource(usersSaved);
+    this.dataSource = new MatTableDataSource(users);*/
   }
 
   ngOnInit() {
@@ -53,8 +43,9 @@ export class TableSave implements OnInit{
       }
       else {
         console.log("saved"); 
+        this.updateData();
         this.isSaving = false;
-/*
+        /*
         let el = document.getElementsByClassName("change-notification")[0];
         el.style.display = "none";*/
       }
@@ -130,32 +121,16 @@ export class TableSave implements OnInit{
     this.refreshTable();
   }
 
-  startSave(){
-    //wait while showing a spinner
-    let spinner = document.getElementsByClassName("spinner-bg")[0];
-    spinner.style.display = "inline";
-    this.userService.isSaving.next(true);
-    setTimeout(() => this.afterSave(spinner), 2000);
-  }
-
-  afterSave(spinner: Element){
-    this.userService.updateData(this.dataSource.data);
-    this.userService.isSaving.next(false);
-    spinner.style.display = "none";
-    this.isUnchanged = true;
-  }
-
   onSaveClick(){
-    //this.startSave();
     this.userService.applyChanges(this.changedData);
     this.changedData.splice(0, this.changedData.length);
     this.isUnchanged = true;
   }
 
   onCancelClick(){
-    let data = this.dataSource.data;
-    data = [].concat(this.dataSaved.data);
+    let data = [].concat(this.userService.getUsers());
     this.dataSource = new MatTableDataSource(data);
+    this.changedData.splice(0, this.changedData.length);
     this.isUnchanged = true;
     this.refreshTable();
   }
@@ -164,9 +139,26 @@ export class TableSave implements OnInit{
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
-  //Send to parent (tab-nav), which then sends it down to table-overview
-  sendData(){
-    this.messageEvent.emit(this.dataSaved.data);
+
+  updateData(){
+    //const users: UserData[] = [].concat(this.userService.getUsers());
+    //Make a deep copy
+    const users: UserData[] = JSON.parse(JSON.stringify(this.userService.getUsers()));
+    // Assign the data to the data source for the table to render
+    this.dataSource = new MatTableDataSource(users);
+  }
+
+  nameChanged(row){
+    let user = {...row};
+    user.action = "Edit";
+    let i = this.changedData.findIndex(x => x.id === user.id);
+    if (i > -1){
+      this.changedData[i].name = user.name;
+    }
+    else {
+      this.changedData.push(user);
+    }
+    this.isUnchanged = false;
   }
 }
 

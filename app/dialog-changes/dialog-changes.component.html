@@ -1,9 +1,15 @@
-<!--<h2 mat-dialog-title>Ongoing changes</h2>-->
-  <div mat-dialog-content>
-    <p>one</p>
-    <p>two</p>
-    <p>three</p>
-  </div>
-  <div mat-dialog-actions>
-    <button mat-button mat-dialog-close>Close</button>
-  </div>
+<h2 mat-dialog-title>Ongoing changes</h2>
+<div mat-dialog-content>
+  <!--<li *ngFor="let data of changedData">{{data.action}} {{data.id}} {{data.name}}</li>-->
+  <mat-list>
+      <mat-list-item *ngFor="let data of changedData">
+        <mat-icon class="add-icon" *ngIf="data.action == 'Add'">add</mat-icon>
+        <mat-icon class="delete-icon" *ngIf="data.action == 'Delete'">delete</mat-icon>
+        <mat-icon class="edit-icon" *ngIf="data.action == 'Edit'">edit</mat-icon>
+        ID:<b>{{data.id}}</b>&nbsp;Name:<b>{{data.name}}</b>
+      </mat-list-item>
+  </mat-list>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Close</button>
+</div>

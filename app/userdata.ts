@@ -3,4 +3,5 @@ export interface UserData {
   name: string;
   progress: string;
   color: string;
+  action: string;
 }

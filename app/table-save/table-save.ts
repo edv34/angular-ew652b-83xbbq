@@ -78,7 +78,8 @@ export class TableSave implements OnInit{
   }
 
   showChanges() {
-    const dialogRef = this.dialog.open(DialogChanges);
+    const dialogRef = this.dialog.open(DialogChanges,
+      {data: this.userService.getChanges()});
   }
 
   addRowData(row_obj){
@@ -89,7 +90,8 @@ export class TableSave implements OnInit{
           id: newId.toString(),
           name: row_obj.name,
           progress: Math.round(Math.random() * 100).toString(),
-          color: 'red'
+          color: 'red',
+          action: 'Add'
     }
     data.push(user);
     this.changedData.push(user);
@@ -104,9 +106,10 @@ export class TableSave implements OnInit{
     {
       if (data[i].id == row_obj.id)
       {
-        //Add id with empty name to changes
+        //Add user to changes
         let user = {...data[i]};
-        user.name = '';
+        //user.name = '';
+        user.action = 'Delete';
         this.changedData.push(user);
 
         data.splice(i, 1);

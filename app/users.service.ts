@@ -43,8 +43,8 @@ export class UsersService {
       {
         this.users.push(this.changes[i]);
       }
-      //Remove if name was changed to ''
-      else if (this.changes[i].name == '')
+      //Remove
+      else if (this.changes[i].action == 'Delete')
       {
         this.users.splice(index, 1);
       }

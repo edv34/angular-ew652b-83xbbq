@@ -1,4 +1,4 @@
-import {Component, ViewChild, Output, EventEmitter,OnInit} from '@angular/core';
+import {Component, ViewChild, Output, EventEmitter,OnInit, ChangeDetectorRef, NgZone} from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {MatDialog} from '@angular/material';
 import {DialogBox} from '../dialog-box/dialog-box';
@@ -27,7 +27,7 @@ export class TableSave implements OnInit{
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(public dialog: MatDialog, private userService: UsersService) {
+  constructor(public dialog: MatDialog, private userService: UsersService, public zone: NgZone) {
     this.updateData();
     /*const users: UserData[] = [].concat(userService.getUsers());
     // Assign the data to the data source for the table to render
@@ -38,7 +38,8 @@ export class TableSave implements OnInit{
       this.userService.isSaving.subscribe( value => {
       if (value === true) {
         console.log("saving");
-        this.isSaving = true;
+        //this.isSaving = true;
+        this.zone.run(() => this.isSaving = true);
         /*
         let el = document.getElementsByClassName("change-notification")[0];
         el.style.display = "inline";*/
@@ -46,7 +47,8 @@ export class TableSave implements OnInit{
       else {
         console.log("saved"); 
         this.updateData();
-        this.isSaving = false;
+        //this.isSaving = false;
+        this.zone.run(() => this.isSaving = false);
         /*
         let el = document.getElementsByClassName("change-notification")[0];
         el.style.display = "none";*/

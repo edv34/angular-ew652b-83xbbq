@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import {BehaviorSubject, Subject} from 'rxjs';
 import {UserData} from './userdata';
 
 @Injectable()
 export class UsersService {
   private users: UserData[] = [];
   private changes: UserData[] = [];
-  //isSaving: boolean = false;
   isSaving: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  //isSaving: Subject<boolean> = new Subject<boolean>();
 
   constructor() {
     for (let i = 1; i <= 5; i++) { 
@@ -32,7 +32,7 @@ export class UsersService {
     console.log("Applying changes:");
     console.log(userData);
     //Delay
-    await new Promise(r => setTimeout(r, 3000));
+    await new Promise(r => setTimeout(r, 5000));
 
     for (let i = 0; i < this.changes.length; i++)
     {

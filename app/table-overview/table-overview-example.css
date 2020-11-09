@@ -18,3 +18,11 @@
   overflow: auto;
   max-height: 500px;
 }
+
+.change-notification {
+  padding: 8px 8px 0px;
+  display: flex;
+  align-items: center;
+  //justify-content: center;
+  //display: none;
+}

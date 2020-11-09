@@ -1,10 +1,11 @@
-import {Component, ViewChild} from '@angular/core';
-import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {ApplicationRef, ChangeDetectorRef, Component, NgZone,  OnDestroy, ViewChild} from '@angular/core';
+import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {AppSettings} from '../appsettings';
 import {AppSettingsService} from '../appsettingsservice';
 import {HttpClient} from "@angular/common/http";
 import {UsersService} from '../users.service';
 import {UserData} from '../userdata';
+import { DialogChanges } from '../dialog-changes/dialog-changes.component';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -15,16 +16,18 @@ import {UserData} from '../userdata';
   templateUrl: 'table-overview-example.html',
   providers: [AppSettingsService],
 })
-export class TableOverviewExample {
+export class TableOverviewExample implements OnDestroy {
   displayedColumns = ['id', 'name', 'progress', 'color'];
   dataSource: MatTableDataSource<UserData>;
+  isSaving = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   private settings: AppSettings;
+  isSavingSub: any;
 
-  constructor(private appSettingsService: AppSettingsService, private http: HttpClient, private userService: UsersService) {
+  constructor(private appSettingsService: AppSettingsService, private http: HttpClient, private userService: UsersService, public dialog: MatDialog, public zone: NgZone) {
     /*
     const users: UserData[] = [];
     for (let i = 1; i <= 100; i++) { users.push(createNewUser(i)); }
@@ -76,6 +79,11 @@ export class TableOverviewExample {
       }
   }
 
+  ngOnDestroy()
+  {
+    this.isSavingSub.unsubscribe();
+  }
+
   ngOnInit(): void {
     /*
     this.appSettingsService.getSettings()
@@ -85,12 +93,17 @@ export class TableOverviewExample {
           console.log(this.settings.defaultFilter);
         });
     */
-    this.userService.isSaving.subscribe( value => {
+    this.isSavingSub = this.userService.isSaving.subscribe( value => {
       if (value === true) {
         console.log("saving"); 
+        //this.isSaving = true;
+        this.zone.run(() => this.isSaving = true);
       }
       else {
         console.log("saved"); 
+        //this.isSaving = false;
+        this.updateData();
+        this.zone.run(() => this.isSaving = false);
       }
     });
   }
@@ -155,6 +168,15 @@ export class TableOverviewExample {
       const data = JSON.parse(reader.result.toString());
       this.dataSource = new MatTableDataSource(data);
     };
+  }
+
+  showChanges() {
+    const dialogRef = this.dialog.open(DialogChanges,
+      {data: this.userService.getChanges()});
+  }
+
+  updateData(){
+    this.dataSource = new MatTableDataSource(this.userService.getUsers());
   }
 
 }

@@ -1,3 +1,9 @@
+<div class="change-notification" *ngIf="isSaving">
+  <!--<mat-spinner [diameter]="18"></mat-spinner>-->
+  <button mat-icon-button color="primary" (click)="showChanges()" matTooltip="Show changes" matTooltipPosition="right"><mat-icon>list</mat-icon></button>
+  Applying changes...
+</div>
+
 <div class="example-header">
   <mat-form-field matTooltip="Example: id==7 or id>10 and name like 'Jack'">
     <input matInput id="Filter" (keyup)="applyFilter($event.target.value)"  placeholder="Filter by ID and Name">

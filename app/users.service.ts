@@ -73,11 +73,12 @@ function createNewUser(id: number): UserData {
     id: id.toString(),
     name: name,
     progress: Math.round(Math.random() * 100).toString(),
-    color: COLORS[Math.round(Math.random() * (COLORS.length - 1))]
+    color: COLORS[Math.round(Math.random() * (COLORS.length - 1))],
+    action: ""
   };
 }
 
-const COLORS = ['maroon', 'red', 'orange', 'yellow', 'olive', 'green', 'purple',
+export const COLORS = ['maroon', 'red', 'orange', 'yellow', 'olive', 'green', 'purple',
   'fuchsia', 'lime', 'teal', 'aqua', 'blue', 'navy', 'black', 'gray'];
 const NAMES = ['Maia', 'Asher', 'Olivia', 'Atticus', 'Amelia', 'Jack',
   'Charlotte', 'Theodore', 'Isla', 'Oliver', 'Isabella', 'Jasper',

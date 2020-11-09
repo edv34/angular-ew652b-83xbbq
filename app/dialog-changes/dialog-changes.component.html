@@ -3,9 +3,9 @@
   <!--<li *ngFor="let data of changedData">{{data.action}} {{data.id}} {{data.name}}</li>-->
   <mat-list>
       <mat-list-item *ngFor="let data of changedData">
-        <mat-icon class="add-icon" *ngIf="data.action == 'Add'">add</mat-icon>
-        <mat-icon class="delete-icon" *ngIf="data.action == 'Delete'">delete</mat-icon>
-        <mat-icon class="edit-icon" *ngIf="data.action == 'Edit'">edit</mat-icon>
+        <mat-icon color="primary" class="add-icon" *ngIf="data.action == 'Add'">add</mat-icon>
+        <mat-icon color="primary" class="delete-icon" *ngIf="data.action == 'Delete'">delete</mat-icon>
+        <mat-icon color="primary" class="edit-icon" *ngIf="data.action == 'Edit'">edit</mat-icon>
         ID:<b>{{data.id}}</b>&nbsp;Name:<b>{{data.name}}</b>
       </mat-list-item>
   </mat-list>

@@ -5,6 +5,7 @@ import {DialogBox} from '../dialog-box/dialog-box';
 import {UsersService} from '../users.service';
 import {UserData} from '../userdata';
 import {DialogChanges} from '../dialog-changes/dialog-changes.component';
+import {COLORS} from '../users.service';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -21,6 +22,7 @@ export class TableSave implements OnInit{
   changedData: UserData[] = [];
   isUnchanged: boolean = true;
   isSaving = false;
+  colors = COLORS;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -148,12 +150,13 @@ export class TableSave implements OnInit{
     this.dataSource = new MatTableDataSource(users);
   }
 
-  nameChanged(row){
+  dataChanged(row){
     let user = {...row};
     user.action = "Edit";
     let i = this.changedData.findIndex(x => x.id === user.id);
     if (i > -1){
       this.changedData[i].name = user.name;
+      this.changedData[i].color = user.color;
     }
     else {
       this.changedData.push(user);

@@ -19,10 +19,26 @@
   max-height: 500px;
 }
 
+.mat-column-id {
+  flex: 0 0 10%;
+}
+
+.mat-column-action {
+  flex: 0 0 10%;
+}
+
 .change-notification {
   padding: 8px 8px 0px;
   display: flex;
   align-items: center;
   //justify-content: center;
   //display: none;
+}
+
+.buttons-edit {
+  padding: 8px 0px 0px;
+}
+
+.buttons-right {
+  float: right;
 }

@@ -5,7 +5,11 @@ import { TableOverviewExample } from '../table-overview/table-overview-example';
 import { TableSave } from '../table-save/table-save';
 
 const routes: Routes = [
-  { path: 'filter', component: TableOverviewExample },
+  { path: 'filter', component: TableOverviewExample,
+    data: {
+      reuse: true
+    } 
+  },
   { path: 'edit1', component: TableSave,
     data: {
       reuse: true

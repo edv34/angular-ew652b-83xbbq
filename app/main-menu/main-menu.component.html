@@ -4,10 +4,12 @@
     <a mat-tab-link routerLink="/edit1">Edit 1</a>
     <a mat-tab-link routerLink="/edit2">Edit 2</a>
   </nav>
-  <div class="change-notification" *ngIf="isSaving">
-    <!--<mat-spinner [diameter]="18"></mat-spinner>-->
-    <button mat-icon-button color="primary" (click)="showChanges()" matTooltip="Show changes" matTooltipPosition="right"><mat-icon>list</mat-icon></button>
-    Applying changes...
-</div>
+  <div *ngIf="isSaving">
+    <div class="change-notification">
+      <button mat-icon-button color="primary" (click)="showChanges()" matTooltip="Show changes" matTooltipPosition="right"><mat-icon>list</mat-icon></button>
+      Applying changes...
+    </div>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
   <router-outlet></router-outlet>
 </div> 

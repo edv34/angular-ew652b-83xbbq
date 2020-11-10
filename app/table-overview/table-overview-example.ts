@@ -82,7 +82,7 @@ export class TableOverviewExample implements OnDestroy {
     this.dataSource.filter = filterValue;
   }
 
-	onClickSave() {
+	onClickSaveFilter() {
     var data = document.getElementById("Filter").value;
     var blob = new Blob([data], {type: 'text/plain'});
 

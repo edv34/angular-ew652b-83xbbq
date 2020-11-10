@@ -29,9 +29,6 @@ export class TableSave implements OnInit, OnDestroy{
 
   constructor(public dialog: MatDialog, private userService: UsersService, public zone: NgZone) {
     this.updateData();
-    /*const users: UserData[] = [].concat(userService.getUsers());
-    // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(users);*/
   }
 
   ngOnInit() {
@@ -73,11 +70,6 @@ export class TableSave implements OnInit, OnDestroy{
         this.deleteRowData(result.data);
       }
     });
-  }
-
-  showChanges() {
-    const dialogRef = this.dialog.open(DialogChanges,
-      {data: this.userService.getChanges()});
   }
 
   addRowData(row_obj){

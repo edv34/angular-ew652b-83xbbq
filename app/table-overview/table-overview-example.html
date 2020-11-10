@@ -2,7 +2,7 @@
   <mat-form-field matTooltip="Example: id==7 or id>10 and name like 'Jack'">
     <input matInput id="Filter" (keyup)="applyFilter($event.target.value)"  placeholder="Filter by ID and Name">
   </mat-form-field>
-  <button mat-raised-button id="SaveFilter" color="primary" (click)="onClickSave()">Save filter</button>
+  <button mat-raised-button id="SaveFilter" color="primary" (click)="onClickSaveFilter()">Save filter</button>
   <button mat-raised-button id="Export" color="primary" (click)="onClickExport()">Export</button>
   <button type="button" mat-raised-button color="primary" (click)="fileInput.click()">Import</button>
   <input hidden (change)="onFileSelected()" #fileInput type="file" id="file">

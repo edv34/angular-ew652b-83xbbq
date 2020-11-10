@@ -94,15 +94,10 @@ export class TableOverviewExample implements OnDestroy {
     */
     this.isSavingSub = this.userService.isSaving.subscribe( value => {
       if (value === true) {
-        console.log("saving"); 
-        //this.isSaving = true;
-        this.zone.run(() => this.isSaving = true);
+        this.isUnchanged = true;
       }
       else {
-        console.log("saved"); 
-        //this.isSaving = false;
         this.updateData();
-        this.zone.run(() => this.isSaving = false);
       }
     });
   }

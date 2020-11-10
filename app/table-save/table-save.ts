@@ -37,21 +37,10 @@ export class TableSave implements OnInit{
   ngOnInit() {
       this.userService.isSaving.subscribe( value => {
       if (value === true) {
-        console.log("saving");
-        //this.isSaving = true;
-        this.zone.run(() => this.isSaving = true);
-        /*
-        let el = document.getElementsByClassName("change-notification")[0];
-        el.style.display = "inline";*/
+        this.isUnchanged = true;
       }
       else {
-        console.log("saved"); 
         this.updateData();
-        //this.isSaving = false;
-        this.zone.run(() => this.isSaving = false);
-        /*
-        let el = document.getElementsByClassName("change-notification")[0];
-        el.style.display = "none";*/
       }
     });
   }

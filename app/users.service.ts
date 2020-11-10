@@ -31,7 +31,7 @@ export class UsersService {
     console.log("Applying changes:");
     console.log(userData);
     //Delay
-    await new Promise(r => setTimeout(r, 5000));
+    await new Promise(r => setTimeout(r, 10000));
 
     for (let i = 0; i < this.changes.length; i++)
     {

@@ -4,7 +4,6 @@ import {MatDialog} from '@angular/material';
 import {DialogBox} from '../dialog-box/dialog-box';
 import {UsersService} from '../users.service';
 import {UserData} from '../userdata';
-import {DialogChanges} from '../dialog-changes/dialog-changes.component';
 import {COLORS} from '../users.service';
 
 /**
@@ -75,7 +74,6 @@ export class TableSave implements OnInit, OnDestroy{
   addRowData(row_obj){
     let data = this.dataSource.data;
     let newId = parseInt(data[data.length-1].id) + 1;
-    //let user = createNewUser(lastId + 1);
     let user = {
           id: newId.toString(),
           name: row_obj.name,

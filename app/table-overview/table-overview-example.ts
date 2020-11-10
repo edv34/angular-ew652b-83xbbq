@@ -5,7 +5,6 @@ import {AppSettingsService} from '../appsettingsservice';
 import {HttpClient} from "@angular/common/http";
 import {UsersService, COLORS} from '../users.service';
 import {UserData} from '../userdata';
-import {DialogChanges} from '../dialog-changes/dialog-changes.component';
 import {DialogBox} from '../dialog-box/dialog-box';
 
 /**
@@ -40,14 +39,13 @@ export class TableOverviewExample implements OnDestroy {
   }
 
   ngOnInit(): void {
-    /*
     this.appSettingsService.getSettings()
       .subscribe(settings => this.settings = settings,
         () => null,
         () => {
           console.log(this.settings.defaultFilter);
         });
-    */
+
     this.isSavingSub = this.userService.isSaving.subscribe( value => {
       if (value === true) {
         this.isUnchanged = true;
@@ -196,7 +194,6 @@ export class TableOverviewExample implements OnDestroy {
   addRowData(row_obj){
     let data = this.dataSource.data;
     let newId = parseInt(data[data.length-1].id) + 1;
-    //let user = createNewUser(lastId + 1);
     let user = {
           id: newId.toString(),
           name: row_obj.name,

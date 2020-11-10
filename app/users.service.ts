@@ -7,7 +7,6 @@ export class UsersService {
   private users: UserData[] = [];
   private changes: UserData[] = [];
   isSaving: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  //isSaving: Subject<boolean> = new Subject<boolean>();
 
   constructor() {
     for (let i = 1; i <= 5; i++) { 
@@ -36,7 +35,6 @@ export class UsersService {
 
     for (let i = 0; i < this.changes.length; i++)
     {
-      //let user = this.users.find(x => x.id === this.changes[i].id);
       let index = this.users.findIndex(x => x.id === this.changes[i].id);
       //Add if new id
       if (index == -1)

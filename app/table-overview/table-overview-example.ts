@@ -21,7 +21,6 @@ export class TableOverviewExample implements OnDestroy {
   displayedColumns = ['id', 'name', 'progress', 'color', 'action'];
   dataSource: MatTableDataSource<UserData>;
   changedData: UserData[] = [];
-  isSaving = false;
   isUnchanged = true;
   colors = COLORS;
 
@@ -33,49 +32,6 @@ export class TableOverviewExample implements OnDestroy {
 
   constructor(private appSettingsService: AppSettingsService, private http: HttpClient, private userService: UsersService, public dialog: MatDialog, public zone: NgZone) {
     this.updateData();
-    // Custom filter
-    this.dataSource.filterPredicate = 
-      (data: UserData, filter: string) => {
-        var regexpId = new RegExp('id(>|>=|<|<=|==)([0-9]+)');
-        var regexpName = new RegExp('name like [\'\"](.+)[\'\"]');
-        var res = true;
-        //Split the query on 'or' and then on 'and'
-        //If an 'or' substring is true after processing and combining all 'and' substrings, break and return true
-        var splitOr = filter.split(" or ");
-        for (let i in splitOr)
-        {
-          res = true;
-          var splitAnd = splitOr[i].split(" and ");
-          for (let j in splitAnd)
-          {
-            var matchName = splitAnd[j].match(regexpName);
-            var matchId = splitAnd[j].match(regexpId);
-            if (matchId != null)
-            {
-              res = res && eval(data.id.toString() + matchId[1] + matchId[2]);
-            }
-            else if (matchName != null)
-            {
-              let name = matchName[1];
-              if (name.startsWith('/') && name.endsWith('/'))
-              {
-                let rgx = new RegExp(name.substr(1, name.length-2));
-                res = res && rgx.test(data.name.toLowerCase());
-              }
-              else
-                res = res && (data.name.toLowerCase().includes(matchName[1]));
-            }
-            else
-            {
-              res = false;
-              break;
-            }
-          }
-          if (res == true)
-            break;
-        }
-        return res;
-      }
   }
 
   ngOnDestroy()
@@ -164,17 +120,56 @@ export class TableOverviewExample implements OnDestroy {
     };
   }
 
-  showChanges() {
-    const dialogRef = this.dialog.open(DialogChanges,
-      {data: this.userService.getChanges()});
-  }
-
   updateData(){
     //const users: UserData[] = [].concat(this.userService.getUsers());
     //Make a deep copy
     const users: UserData[] = JSON.parse(JSON.stringify(this.userService.getUsers()));
     // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(users);
+    this.zone.run(() => this.dataSource = new MatTableDataSource(users));
+    //this.dataSource = new MatTableDataSource(users);
+    // Custom filter
+    this.dataSource.filterPredicate = 
+      (data: UserData, filter: string) => {
+        var regexpId = new RegExp('id(>|>=|<|<=|==)([0-9]+)');
+        var regexpName = new RegExp('name like [\'\"](.+)[\'\"]');
+        var res = true;
+        //Split the query on 'or' and then on 'and'
+        //If an 'or' substring is true after processing and combining all 'and' substrings, break and return true
+        var splitOr = filter.split(" or ");
+        for (let i in splitOr)
+        {
+          res = true;
+          var splitAnd = splitOr[i].split(" and ");
+          for (let j in splitAnd)
+          {
+            var matchName = splitAnd[j].match(regexpName);
+            var matchId = splitAnd[j].match(regexpId);
+            if (matchId != null)
+            {
+              res = res && eval(data.id.toString() + matchId[1] + matchId[2]);
+            }
+            else if (matchName != null)
+            {
+              let name = matchName[1];
+              if (name.startsWith('/') && name.endsWith('/'))
+              {
+                let rgx = new RegExp(name.substr(1, name.length-2));
+                res = res && rgx.test(data.name.toLowerCase());
+              }
+              else
+                res = res && (data.name.toLowerCase().includes(matchName[1]));
+            }
+            else
+            {
+              res = false;
+              break;
+            }
+          }
+          if (res == true)
+            break;
+        }
+        return res;
+      }
   }
 
   refreshTable(){
@@ -244,8 +239,7 @@ export class TableOverviewExample implements OnDestroy {
   }
 
   onCancelClick(){
-    let data = [].concat(this.userService.getUsers());
-    this.dataSource = new MatTableDataSource(data);
+    this.updateData();
     this.changedData.splice(0, this.changedData.length);
     this.isUnchanged = true;
     this.refreshTable();

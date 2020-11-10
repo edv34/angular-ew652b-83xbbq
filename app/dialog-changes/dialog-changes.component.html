@@ -1,6 +1,5 @@
-<div mat-dialog-title>Ongoing changes</div>
+ <!--<div mat-dialog-title>Ongoing changes</div>-->
 <div mat-dialog-content>
-  <!--<li *ngFor="let data of changedData">{{data.action}} {{data.id}} {{data.name}}</li>-->
   <mat-list>
       <mat-list-item *ngFor="let data of changedData">
         <mat-icon color="primary" class="add-icon" *ngIf="data.action == 'Add'">add</mat-icon>
@@ -10,6 +9,7 @@
       </mat-list-item>
   </mat-list>
 </div>
+ <!--
 <div mat-dialog-actions>
   <button mat-button mat-dialog-close>Close</button>
-</div>
+</div>-->

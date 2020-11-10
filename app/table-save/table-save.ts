@@ -1,4 +1,4 @@
-import {Component, ViewChild, Output, EventEmitter,OnInit, ChangeDetectorRef, NgZone} from '@angular/core';
+import {Component, ViewChild, OnInit, NgZone, OnDestroy} from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {MatDialog} from '@angular/material';
 import {DialogBox} from '../dialog-box/dialog-box';
@@ -16,13 +16,13 @@ import {COLORS} from '../users.service';
   templateUrl: 'table-save.html',
   providers: [],
 })
-export class TableSave implements OnInit{
+export class TableSave implements OnInit, OnDestroy{
   displayedColumns = ['id', 'name', 'progress', 'color', 'action'];
   dataSource: MatTableDataSource<UserData>;
   changedData: UserData[] = [];
   isUnchanged: boolean = true;
-  isSaving = false;
   colors = COLORS;
+  isSavingSub: any;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -35,7 +35,7 @@ export class TableSave implements OnInit{
   }
 
   ngOnInit() {
-      this.userService.isSaving.subscribe( value => {
+      this.isSavingSub = this.userService.isSaving.subscribe( value => {
       if (value === true) {
         this.isUnchanged = true;
       }
@@ -43,6 +43,11 @@ export class TableSave implements OnInit{
         this.updateData();
       }
     });
+  }
+
+  ngOnDestroy()
+  {
+    this.isSavingSub.unsubscribe();
   }
 
   /**
@@ -121,8 +126,7 @@ export class TableSave implements OnInit{
   }
 
   onCancelClick(){
-    let data = [].concat(this.userService.getUsers());
-    this.dataSource = new MatTableDataSource(data);
+    this.updateData();
     this.changedData.splice(0, this.changedData.length);
     this.isUnchanged = true;
     this.refreshTable();
@@ -138,7 +142,8 @@ export class TableSave implements OnInit{
     //Make a deep copy
     const users: UserData[] = JSON.parse(JSON.stringify(this.userService.getUsers()));
     // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(users);
+    this.zone.run(() => this.dataSource = new MatTableDataSource(users));
+    //this.dataSource = new MatTableDataSource(users);
   }
 
   dataChanged(row){
